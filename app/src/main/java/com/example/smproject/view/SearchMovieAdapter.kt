@@ -1,24 +1,25 @@
 package com.example.smproject.view
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.smproject.R
 import com.example.smproject.model.Search
 
-class SearchMovieAdapter(val searchList: List<Search>?) : RecyclerView.Adapter<SearchMovieAdapter.ViewHolder>() {
+class SearchMovieAdapter(val searchList: List<Search>?) :
+    RecyclerView.Adapter<SearchMovieAdapter.ViewHolder>() {
+
+    val callback: Callback? = null
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): SearchMovieAdapter.ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.film_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.movie_item, parent, false)
         return ViewHolder(view)
     }
 
@@ -42,12 +43,12 @@ class SearchMovieAdapter(val searchList: List<Search>?) : RecyclerView.Adapter<S
         init {
             itemView.setOnClickListener {
                 val position = adapterPosition
-                Toast.makeText(
-                    itemView.context,
-                    searchList?.get(position)?.Title.toString(),
-                    Toast.LENGTH_LONG
-                ).show()
+                callback?.onItemClick(searchList?.get(position))
             }
         }
+    }
+
+    interface Callback {
+        fun onItemClick(searchItem: Search?)
     }
 }
